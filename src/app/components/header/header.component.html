@@ -3,13 +3,13 @@
     <div class="container">
       <div class="nav-content">
         <div class="logo">
-          <a href="#" class="logo-link">
+          <a routerLink="/home" class="logo-link">
             <span class="logo-text">VitaMedicale</span>
           </a>
         </div>
         
         <div class="nav-menu" [class.active]="isMenuOpen">
-          <a href="#home" class="nav-link" (click)="closeMenu()">Accueil</a>
+          <a routerLink="/home" class="nav-link" (click)="closeMenu()">Accueil</a>
           <a href="#about" class="nav-link" (click)="closeMenu()">À propos</a>
           <a href="#services" class="nav-link" (click)="closeMenu()">Services</a>
           <a href="#contact" class="nav-link" (click)="closeMenu()">Contact</a>
@@ -21,9 +21,25 @@
             <i class="phone-icon">📞</i>
             <span>514 292-0801</span>
           </a>
-          <a href="#appointment" class="btn btn-primary">
-            Prendre rendez-vous
-          </a>
+          
+          <div *ngIf="!isAuthenticated" class="auth-buttons">
+            <a routerLink="/auth" class="btn btn-outline">
+              Connexion
+            </a>
+            <a href="#appointment" class="btn btn-primary">
+              Prendre rendez-vous
+            </a>
+          </div>
+          
+          <div *ngIf="isAuthenticated" class="user-menu">
+            <div class="user-info">
+              <span class="user-name">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</span>
+              <span class="user-type">{{ currentUser?.userType === 'doctor' ? 'Médecin' : 'Patient' }}</span>
+            </div>
+            <button class="btn btn-outline" (click)="logout()">
+              Déconnexion
+            </button>
+          </div>
         </div>
         
         <button class="mobile-menu-btn" (click)="toggleMenu()" [class.active]="isMenuOpen">
